@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	
+	<div th:fragment="content" style="width: 14rem; margin-right: 5rem">
+		<div class="card-body">
+			<a th:href="@{'/p/' + ${product.alias}}">
+				<img class="card-img-top" th:src="@{${product.mainImagePath}}" />
+				<div >
+					<b>[[${product.shortName}]]</b>
+				</div>
+			</a>	
+			<span class="card-title">
+				<div th:replace="product/product_fragment :: product_price"></div>
+			</span>
+		</div>
+	</div>
+	
+	<div th:fragment="product_price" th:remove="tag" >
+		<th:block th:if="${product.discountPercent &lt;= 0}">
+			<div th:replace="product/product_fragment :: price_fragment(${product.price})"></div>
+		</th:block>
+		<th:block th:if="${product.discountPercent > 0}">
+			<span style="font-size: larger; color: darkred"><div th:replace="product/product_fragment :: price_fragment(${product.discountPrice})"></div></span>
+			<del><span><div th:replace="product/product_fragment :: price_fragment(${product.price})"></div></span></del>
+		</th:block>
+	</div>
+	
+	<div th:fragment="price_fragment(productPrice)" th:remove="tag">
+	<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>[[${#numbers.formatDecimal(productPrice, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]<span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+	</div>
+</body>
+</html>

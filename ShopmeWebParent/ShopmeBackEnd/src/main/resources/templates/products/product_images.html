@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<div class="row" id="divProductImages">
+			<div class="col border m-3 p-2">
+				<div>
+					<label>Main Image: [[${product.mainImage}]]</label>
+				</div>
+				<div class="m-2">
+					<img alt="Main image preview" id="thumbnail" class="img-fluid" th:src="@{${product.mainImagePath}}">
+				</div>
+				<div>
+					<input type="file" id="fileImage" name="fileImage" accept="imge/png, image/jpeg" th:required="${product.mainImage == null}" />
+				</div>
+				<input type="hidden" th:field="*{mainImage}"/>
+			</div>
+		
+			<th:block th:each="productImage, status : ${product.images}">
+				<div class="col border m-3 p-2" th:id="'divExtraImage' + ${status.index}">
+					<div >
+						<label>Extra Image #[[${status.index + 1}]]: [[${productImage.name}]]</label>
+						<a class="btn fas fa-times-circle fa-2x icon-gray float-right" title="Remove this image" name="linkRemoveExtraImage"></a>
+					</div>
+					<div class="m-2">
+						<img th:alt="'Extra image #' + ${status.index + 1} + ' preview'" th:id="'extraThumbnail' + ${status.index}" class="img-fluid" th:src="@{${productImage.imagePath}}">
+					</div>
+					<div>
+						<input type="file" name="extraImage" accept="imge/png, image/jpeg" />
+					</div>
+					<input type="hidden" name="imageIDs" th:id="'imageID' + ${status.index}" th:value="${productImage.id}"/>
+					<input type="hidden" name="imageNames" th:id="'imageName' + ${status.index}" th:value="${productImage.name}"/>
+				</div>
+			</th:block>
+		
+			<div class="col border m-3 p-2" th:id="'divExtraImage' + ${numberOfExistingExtraImage}">
+				<div th:id="'extraImageHeader' + ${numberOfExistingExtraImage}">
+					<label>Extra Image #[[${numberOfExistingExtraImage + 1}]]</label>
+				</div>
+				<div class="m-2">
+					<img th:alt="'Extra image ' + ${numberOfExistingExtraImage} + ' preview'" 
+						 th:id="'extraThumbnail' + ${numberOfExistingExtraImage}" class="img-fluid" th:src="@{/images/image-thumbnail.png}">
+				</div>
+				<div>
+					<input type="file" name="extraImage" accept="imge/png, image/jpeg" />
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

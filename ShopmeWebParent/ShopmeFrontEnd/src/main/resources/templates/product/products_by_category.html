@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')"/>
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>	
+		<div th:replace="navigation :: search_nav"></div>	
+		<div class="full-details">
+			<div th:replace="breadcrumb :: content"></div>
+			<div th:replace="navigation :: vertical_bar"></div>
+			<div class="container">			
+				<div class="row justify-content-center" >
+					<th:block th:each="cat : ${category.children}">
+						<div class="col-2 mb-2" th:if="${cat.enabled == true}">
+							<div class="card-group mt-2">
+								<div class="card" style="border: none; height: auto">
+									<a th:href="@{'/c/' + ${cat.alias}}">
+										<img class="card-img-top" th:src="@{${cat.imagePath}}">
+										<div class="card-body">
+											<b class="card-title">[[${cat.name}]]</b>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</th:block>
+				</div>		
+			</div>
+			<div class="row">&nbsp;</div>
+			<div class="row">
+				<th:block th:each="product : ${listProducts}">
+					<div class="card-group mt-2">
+						<div class="card" style="border: none; height: auto">
+							<div class="container-fluid d-flex justify-content-center">
+								<div th:replace="product/product_fragment :: content"></div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>					
+		</div>
+		<div class="less-details">
+			<div th:replace="navigation :: vertical_bar"></div>
+			<div class="row">				
+				<div style="width: auto; margin-left: 8rem">
+					<th:block th:each="cat : ${category.children}">
+						<div class="col-8 mb-2" th:if="${cat.enabled == true}">
+							<div class="card-group">
+								<div class="card">
+									<a th:href="@{'/c/' + ${category_alias} + '/products'}">
+										<img class="card-img-top" th:src="@{${cat.imagePath}}" height="100">
+										<div clas="card-body">
+											<b class="card-title">[[${cat.name}]]</b>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</th:block>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments :: pagination('/c/' + ${category.alias}, 'product')"></div>	
+		<div th:replace="navigation :: footer_menu"></div>	
+	</div>
+</body>
+</html>

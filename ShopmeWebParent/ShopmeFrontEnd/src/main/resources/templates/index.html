@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en-US">
+<head th:replace="fragments :: page_head('Shopme', 'none')"/>
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		<div th:replace="navigation :: search_nav"></div>	
+		<div class="full-details">	
+			<div th:replace="navigation :: carouselAnimation" ></div>
+			<div>
+				<h2>Shopping by Categories</h2>
+			</div>
+			<div th:replace="navigation :: vertical_bar" ></div>
+			<div class="row">								
+				<div class="container" style="width: auto">
+					<div>				
+						<div class="row container" style="width: 50rem">		
+							<th:block th:each="cat : ${listCategories}">							
+								<div class="col-4 align-items-center mb-2 mt-2">
+									<div class="card-group">
+									  <div class="card">
+									  	<a th:href="@{'/c/' + ${cat.alias}}" >	
+										    <img class="card-img-top" th:src="@{${cat.imagePath}}" height="200" >
+										    <div class="card-body">
+										      <h5 class="card-title">[[${cat.name}]]</h5>
+										    </div>
+										</a>
+									  </div>
+									</div>
+								</div>							
+							</th:block>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="less-details">
+			<div>
+				<h1>Shopping by Categories</h1>
+			</div>
+			<div th:replace="navigation :: vertical_bar" ></div>
+			<div class="row">								
+				<div class="container" style="width: auto">
+					<div>				
+						<div class="col container" style="width: 50rem">		
+							<th:block th:each="cat : ${listCategories}">							
+								<div class="col-4 align-items-center mb-2">
+									<div class="card-group">
+									  <div class="card">
+									  	<a th:href="@{'/c/' + ${cat.alias}}" >	
+										    <img class="card-img-top" th:src="@{${cat.imagePath}}" height="200" >
+										    <div class="card-body">
+										      <h5 class="card-title">[[${cat.name}]]</h5>
+										    </div>
+										</a>
+									  </div>
+									</div>
+								</div>							
+							</th:block>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="navigation :: footer_menu"></div>	
+</body>
+</html>
